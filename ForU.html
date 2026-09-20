@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>JustForU</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fredoka:wght@400;500;600&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --pink-pastel: #ffe4e8;
+            --pink-strong: #ff8fab;
+            --pink-dark: #fb6f92;
+            --brown-text: #6d4c41;
+            --bg-pattern: radial-gradient(#ffb6c1 2px, transparent 2px);
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #fff5f7;
+            background-image: var(--bg-pattern);
+            background-size: 30px 30px;
+            color: var(--brown-text);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            /* Tambahan: Kursor Bintang ✨ */
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2004/svg' width='24' height='24' viewBox='0 0 24 24'><text y='20' font-size='20'>✨</text></svg>") 12 12, auto;
+        }
+
+        a, button, #music-control, .envelope-btn {
+            /* Tambahan: Kursor Tunjuk 👆 saat di tombol */
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2004/svg' width='24' height='24' viewBox='0 0 24 24'><text y='20' font-size='20'>👆</text></svg>") 12 12, pointer !important;
+        }
+
+        .font-cute { font-family: 'Fredoka', sans-serif; }
+        .font-handwriting { font-family: 'Caveat', cursive; }
+
+        #welcome-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .welcome-box {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .envelope-btn {
+            background: linear-gradient(to right, #ff758c 0%, #ff7eb3 100%);
+            color: white;
+            padding: 16px 35px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            box-shadow: 0 10px 20px rgba(255, 117, 140, 0.4);
+            transition: all 0.3s ease;
+            border: 2px solid white;
+            animation: pulse-soft 2s infinite;
+        }
+        
+        .envelope-btn:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 15px 25px rgba(255, 117, 140, 0.6); }
+        .envelope-btn:active { transform: scale(0.95); }
+
+        .bg-element {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.7;
+            animation: float-around 15s infinite linear;
+            pointer-events: none;
+        }
+
+        .floating-heart {
+            position: fixed;
+            color: #ff8fab;
+            font-size: 24px;
+            pointer-events: none;
+            animation: float-up 4s ease-in forwards;
+            z-index: 9998;
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(100vh) scale(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-20vh) scale(1.5) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes float-around {
+            0% { transform: translateY(0) rotate(0deg) scale(1); }
+            50% { transform: translateY(-50px) rotate(180deg) scale(1.1); }
+            100% { transform: translateY(0) rotate(360deg) scale(1); }
+        }
+
+        @keyframes pulse-soft {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        .polaroid {
+            background: #fff9fa;
+            padding: 15px 15px 50px 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            border: 2px dashed var(--pink-strong);
+            transform: rotate(-3deg);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        
+        /* Tambahan aksen Pin lucuu di atas foto/video */
+        .polaroid::before {
+            content: '📌';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 32px;
+            z-index: 5;
+            filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.2));
+        }
+        
+        .polaroid:nth-child(even) { transform: rotate(3deg); }
+        .polaroid:hover { transform: scale(1.05) rotate(0deg); z-index: 10; box-shadow: 0 20px 40px rgba(255, 143, 171, 0.4); }
+        
+        .polaroid img, .polaroid video {
+            width: 100%;
+            border-radius: 6px;
+            object-fit: cover;
+            background-color: #f8f8f8;
+            border: 2px solid #ffe4e8;
+        }
+
+        .cute-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 3px dashed var(--pink-strong);
+            border-radius: 40px;
+            box-shadow: 0 20px 40px rgba(255, 175, 189, 0.3);
+            transition: transform 0.3s;
+        }
+        .cute-card:hover { transform: translateY(-5px); }
+
+        #music-control {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: white;
+            color: var(--pink-dark);
+            border: 3px solid var(--pink-dark);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(251, 111, 146, 0.3);
+            z-index: 999;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #music-control:hover { transform: scale(1.15) rotate(15deg); }
+        .spin-slow { animation: spin 4s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Animasi Ledakan Klik Latar */
+        @keyframes float-up-click {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-40px) scale(1.5); }
+        }
+
+        /* Styling Kucing Ngintip */
+        #peeking-mascot {
+            position: fixed;
+            bottom: -50px;
+            left: 20px;
+            z-index: 998;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #peeking-mascot:hover {
+            transform: translateY(-50px);
+        }
+        .speech-bubble {
+            background: white;
+            border: 2px dashed var(--pink-strong);
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-family: 'Fredoka', sans-serif;
+            color: var(--pink-dark);
+            font-size: 14px;
+            box-shadow: 0 5px 15px rgba(255, 143, 171, 0.3);
+            margin-bottom: 5px;
+            opacity: 0;
+            transform: scale(0.5) translateY(20px);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        #peeking-mascot:hover .speech-bubble {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-bottom: 2px dashed var(--pink-strong);
+            border-right: 2px dashed var(--pink-strong);
+        }
+
+        .taunt-text {
+            position: fixed;
+            color: var(--pink-dark);
+            font-family: 'Fredoka', sans-serif;
+            font-weight: bold;
+            font-size: 1.2rem;
+            pointer-events: none;
+            z-index: 9999;
+            animation: float-fade 1s ease-out forwards;
+            text-shadow: 2px 2px 0px white, -2px -2px 0px white, 2px -2px 0px white, -2px 2px 0px white;
+        }
+
+        @keyframes float-fade {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-40px) scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Welcome & Sound Enabler Screen -->
+    <div id="welcome-screen">
+        <!-- Floating hearts in background of welcome screen -->
+        <i class="fas fa-heart bg-element text-pink-300 text-3xl" style="top: 15%; left: 20%; animation-delay: 0s;"></i>
+        <i class="fas fa-star bg-element text-yellow-300 text-4xl" style="top: 25%; right: 15%; animation-delay: 2s;"></i>
+        <i class="fas fa-heart bg-element text-pink-400 text-2xl" style="bottom: 20%; left: 30%; animation-delay: 1s;"></i>
+
+        <div id="welcome-content-box" class="welcome-box bg-white/90 p-8 md:p-10 rounded-[40px] shadow-2xl text-center max-w-sm mx-4 backdrop-blur-md border-4 border-white">
+            <div id="welcome-icon" class="text-6xl text-pink-400 mb-6 animate__animated animate__bounceIn">🎁</div>
+            <h1 id="welcome-title" class="font-cute text-2xl md:text-3xl text-gray-800 mb-3 text-pink-600">Hai Viera Cantik! 🌸</h1>
+            <p id="welcome-text" class="text-base text-gray-600 mb-8 font-medium leading-relaxed">Ada kado spesial nih buat kamu. Klik tombol di bawah buat buka yaa! ✨</p>
+            <button onclick="handleWelcomeClick()" id="welcome-btn" class="envelope-btn font-cute w-full">
+                Buka Kado Sekarang!
+            </button>
+        </div>
+        <p class="mt-6 font-cute text-pink-600 font-medium text-sm animate-pulse">Pencet terus aja jangan nyerah 😜</p>
+    </div>
+
+    <!-- Audio Player -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="ssstik.io_1789885676948.mp3" type="audio/mpeg">
+        Browser kamu tidak mendukung pemutar audio.
+    </audio>
+
+    <!-- Floating Music Toggle Button -->
+    <div id="music-control" onclick="toggleMusic()" title="Putar/Matikan Musik">
+        <i id="music-icon" class="fas fa-music text-xl"></i>
+    </div>
+
+    <!-- Background Decorations for main page -->
+    <img src="https://cdn-icons-png.flaticon.com/512/7311/7311694.png" class="bg-element w-16" style="top: 10%; left: 5%; animation-delay: 0s;">
+    <img src="https://cdn-icons-png.flaticon.com/512/4144/4144781.png" class="bg-element w-24" style="top: 30%; right: 8%; animation-delay: -5s;">
+    <img src="https://cdn-icons-png.flaticon.com/512/3257/3257367.png" class="bg-element w-20" style="top: 70%; left: 10%; animation-delay: -2s;">
+    <i class="fas fa-heart bg-element text-pink-300 text-5xl" style="top: 50%; right: 15%; animation-delay: -3s;"></i>
+
+    <!-- Header Section -->
+    <header class="min-h-screen flex flex-col items-center justify-center p-4 relative pt-20">
+        <div class="cute-card p-8 md:p-14 max-w-3xl text-center z-10 w-full animate__animated animate__zoomIn">
+            <div class="inline-block px-6 py-2 rounded-full bg-gradient-to-r from-pink-100 to-rose-100 text-pink-600 font-cute text-sm md:text-base mb-6 shadow-sm border border-pink-200">
+                ✨ Special Day for The Most Special Girl ✨
+            </div>
+            
+            <h1 class="font-handwriting text-6xl md:text-8xl text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-400 mb-2 drop-shadow-sm font-bold">
+                Viera Siti Roussadina
+            </h1>
+            
+            <h2 class="font-cute text-3xl md:text-5xl text-[#6d4c41] mb-8 mt-6 tracking-wide">
+                Happy Birthday! 🎂🥳
+            </h2>
+            
+            <div class="bg-white/60 p-6 rounded-3xl border-2 border-pink-100 mb-8 inline-block shadow-inner relative">
+                <i class="fas fa-quote-left absolute -top-3 -left-3 text-3xl text-pink-300 bg-white rounded-full p-2"></i>
+                <p class="font-handwriting text-3xl md:text-4xl text-pink-500 leading-relaxed font-bold">
+                    "Setiap hari sama kamu rasanya kayak lagi makan es krim...<br>manis, dingin, tapi bikin melting dan happy terus!" 🍦💖
+                </p>
+                <i class="fas fa-quote-right absolute -bottom-3 -right-3 text-3xl text-pink-300 bg-white rounded-full p-2"></i>
+            </div>
+
+            <div class="mt-4">
+                <a href="#lyrics" class="inline-flex flex-col items-center text-pink-400 hover:text-pink-600 transition group">
+                    <span class="font-cute text-lg mb-3 bg-pink-50 px-4 py-1 rounded-full group-hover:bg-pink-100">Scroll ke bawah yaa Viera 👇</span>
+                    <i class="fas fa-chevron-down animate-bounce text-3xl"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Aesthetic Lyrics Section -->
+    <section id="lyrics" class="py-24 px-4 relative">
+        <div class="max-w-3xl mx-auto text-center space-y-10 cute-card p-10 md:p-14 shadow-lg border-4 border-pink-200">
+            <div class="flex justify-center space-x-4 mb-4">
+                <i class="fas fa-music text-3xl text-pink-300 animate-bounce" style="animation-delay: 0s;"></i>
+                <i class="fas fa-music text-5xl text-pink-500 animate-bounce" style="animation-delay: 0.2s;"></i>
+                <i class="fas fa-music text-3xl text-pink-300 animate-bounce" style="animation-delay: 0.4s;"></i>
+            </div>
+            
+            <h3 class="font-cute text-3xl text-pink-600 mb-8 bg-pink-50 inline-block px-6 py-2 rounded-2xl">🎵 Dengerin lagunya ya 🎵</h3>
+            
+            <div class="space-y-8">
+                <p class="font-handwriting text-4xl md:text-5xl text-[#8d6e63] leading-relaxed transition hover:text-pink-500 hover:scale-105 cursor-default">
+                    "Bayangkan betapa indahnya dunia bila bersamamu..."
+                </p>
+                <p class="font-handwriting text-4xl md:text-5xl text-pink-500 font-bold leading-relaxed transition hover:scale-110 cursor-default drop-shadow-sm">
+                    "Sudikah kiranya kamu untukku..."
+                </p>
+                <p class="font-handwriting text-4xl md:text-5xl text-[#8d6e63] leading-relaxed transition hover:text-pink-500 hover:scale-105 cursor-default">
+                    "Izinkan daku bisa melihatmu tertawa dan bahagia selamanya..." ✨
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section (Photo & Video) -->
+    <section id="gallery" class="py-20 px-4 md:px-8 relative bg-white/40">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-10">
+                <span class="bg-pink-100 text-pink-600 font-cute px-4 py-1 rounded-full text-sm mb-3 inline-block">Awas senyum-senyum sendiri 🤭</span>
+                <h3 class="font-cute text-4xl md:text-5xl text-pink-500 drop-shadow-sm mb-6">Galeri Si Paling Gemes 📸</h3>
+                
+                <!-- Permintaan Maaf Lucu -->
+                <div class="bg-yellow-50 border-2 border-yellow-400 rounded-3xl p-6 max-w-2xl mx-auto shadow-md transform -rotate-1 hover:rotate-1 transition duration-300 relative">
+                    <div class="absolute -top-3 -right-3 text-3xl">🙏</div>
+                    <p class="font-cute text-yellow-700 text-lg md:text-xl font-medium">
+                        <i class="fas fa-hands-praying text-yellow-500 mr-2 animate-bounce"></i>
+                        Hehe maaf yaa Viera, aku diem-diem nyulik foto & video kamu buat ditaruh di sini... Habisnya lucu bangettt ga kuat! ✌️😝
+                    </p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mt-12">
+                
+                <!-- Photo Polaroid -->
+                <div class="polaroid mx-auto w-full max-w-sm">
+                    <img src="SaveClip.App_650998371_17975258045844424_3708870308770583235_n.jpg" alt="Viera Cantik" onerror="this.src='https://placehold.co/400x400/ffe4e8/fb6f92?text=Viera+Cantik'">
+                    <p class="font-handwriting text-center text-gray-700 mt-5 text-3xl absolute bottom-4 w-full left-0 font-bold text-pink-600">MasyaAllah cantiknyaa 🥺💖</p>
+                    <div class="absolute -top-4 -right-4 text-4xl animate-bounce">✨</div>
+                </div>
+
+                <!-- Video Polaroid (Diperbesar & Estetik) -->
+                <div class="polaroid mx-auto w-full max-w-md" style="transform: rotate(3deg); padding: 20px 20px 65px 20px;">
+                    <div class="relative">
+                        <!-- Aksesoris Selotip (Masking Tape) Lucu -->
+                        <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-pink-300/50 backdrop-blur-sm -rotate-3 z-20 shadow-sm" style="clip-path: polygon(4% 0, 96% 0, 100% 100%, 0 100%); border-radius: 2px;"></div>
+                        
+                        <video id="cute-video" src="WhatsApp Video 2026-09-20 at 13.15.55.mp4" 
+                               controls 
+                               autoplay
+                               loop
+                               muted
+                               playsinline
+                               preload="auto"
+                               class="w-full rounded-xl shadow-inner border-4 border-pink-100 bg-pink-50 relative z-10">
+                            Browser kamu tidak mendukung tag video.
+                        </video>
+                    </div>
+                    <p class="font-handwriting text-center text-gray-700 mt-6 text-3xl absolute bottom-4 w-full left-0 font-bold text-pink-600 drop-shadow-sm">Lucuuu banget siiik! 🥰✨</p>
+                    <div class="absolute -bottom-6 -left-6 text-5xl animate-pulse z-20">🎀</div>
+                    <div class="absolute -top-6 -right-6 text-4xl animate-bounce z-20" style="animation-delay: 0.5s;">🌷</div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Prayers & Wishes Section -->
+    <section class="py-24 px-4 relative">
+        <div class="max-w-4xl mx-auto cute-card p-10 md:p-16 text-center">
+            <img src="https://cdn-icons-png.flaticon.com/512/2488/2488736.png" class="w-24 mx-auto mb-8 animate-bounce">
+            <h3 class="font-cute text-4xl md:text-5xl text-pink-500 mb-8 border-b-2 border-dashed border-pink-200 pb-6 inline-block">
+                Doa & Harapan Buat Viera 🎈
+            </h3>
+            
+            <div class="space-y-6 font-quicksand font-semibold text-xl text-[#6d4c41] leading-loose text-left md:text-center mt-4">
+                <p class="bg-white/50 p-4 rounded-2xl">
+                    Happy birthday, Viera! 🎉 Cieee umurnya nambah lagi nih. Walaupun umur nambah, tapi kelakuan dan mukanya tetep kaya anak sekolah ya wkwk (canda Viera 😘).
+                </p>
+                <p class="bg-white/50 p-4 rounded-2xl">
+                    Semoga di umur yang baru ini kamu makin dimudahin segala urusannya, dilancarkan rezekinya, dan yang paling penting: <span class="bg-pink-100 px-3 py-1 rounded-xl text-pink-600 font-bold transform inline-block hover:scale-110 transition">makin bahagia tiap harinya sama akuuu! hehe 🫶</span>
+                </p>
+                <p class="bg-white/50 p-4 rounded-2xl">
+                    Semoga selalu sehat, dijauhkan dari overthinking malam-malam, dan selalu dikelilingi hal-hal baik. Tetap jadi Viera yang ceria, manja, bawel, dan selalu bikin kangen terus.
+                </p>
+                <div class="p-6 rounded-3xl bg-gradient-to-r from-pink-100 to-rose-100 border-2 border-pink-300 shadow-sm mt-8 transform hover:scale-105 transition duration-300">
+                    <p class="text-pink-600 font-bold text-2xl font-cute text-center">
+                        Pokoknya, semoga semua wish kamu tahun ini, segera diijabah Allah SWT. Aamiin ya rabbal 'aalamiin! 🙏💖
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Question & Interactive Runaway Button -->
+    <section class="min-h-screen flex items-center justify-center p-4 py-20 relative overflow-hidden">
+        <div class="max-w-3xl w-full cute-card p-10 md:p-14 text-center z-10 border-4 border-pink-300">
+            <img src="https://cdn-icons-png.flaticon.com/512/4333/4333609.png" class="w-28 mx-auto mb-6 hover:scale-125 transition duration-300">
+            
+            <h3 class="font-cute text-4xl md:text-5xl text-gray-800 mb-8 bg-yellow-100 inline-block px-6 py-2 rounded-[30px] transform -rotate-2">
+                Eits, tunggu bentar... 👀
+            </h3>
+            
+            <p class="text-[#6d4c41] text-xl font-semibold mb-8 leading-relaxed bg-white/60 p-6 rounded-3xl">
+                Sesuai sama lagu yang dari tadi muter, ada satu hal penting nih.<br>
+                Iya aku tau kita jalani aja dulu, ngalir aja kaya air... 🌊<br><br>
+                Tapi aku tuh mau <span class="text-white font-bold bg-pink-400 px-3 py-1 rounded-lg">"masukin kamu ke keranjang"</span> duluan,<br>
+                biar ngga dicheckout atau dilirik orang lain wkwk 😭🏃‍♂️
+            </p>
+
+            <h4 class="font-handwriting text-4xl md:text-5xl text-pink-600 mb-12 drop-shadow-md font-bold bg-pink-50 p-4 rounded-2xl border border-pink-200">
+                Jadi... Kamu mau ga nungguin & bareng terus sama aku? 👉👈
+            </h4>
+
+            <div class="flex flex-col md:flex-row justify-center items-center gap-8 min-h-[160px] relative" id="btn-container">
+                <!-- Yes Button -->
+                <a href="https://wa.me/62895348033878?text=Haiii!%20Makasih%20banyak%20yaa%20webnya%20lucuuu%20banget,%20ada%20lagunya%20lagi!%20%E2%9D%A4%EF%B8%8F%0A%0ATentang%20pertanyaannya...%20aku%20mauu%20kok%20nungguin%20dan%20bareng%20kamu!%20%F0%9F%98%81" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   class="bg-gradient-to-r from-pink-500 to-rose-400 text-white font-cute text-2xl py-5 px-10 rounded-full shadow-[0_10px_25px_rgba(236,72,153,0.5)] hover:from-pink-600 hover:to-rose-500 hover:scale-110 transform transition-all z-20 border-2 border-white">
+                    MAU BANGET! 🥰
+                </a>
+
+                <!-- No Button (Runaway / Impossible to click) -->
+                <button id="btn-no" 
+                        class="bg-gray-100 text-gray-500 font-cute text-xl py-4 px-10 rounded-full shadow-md z-30 cursor-pointer border-2 border-gray-200 hover:bg-gray-200">
+                    Gak Dulu 😝
+                </button>
+            </div>
+            
+            <!-- Teks Penghitung Gagal Klik -->
+            <div class="mt-8 flex flex-col items-center justify-center space-y-2">
+                <p id="miss-counter" class="text-lg text-pink-500 font-cute font-bold opacity-0 transition-opacity duration-300 bg-pink-50 inline-block px-5 py-2 rounded-full border-2 border-pink-200 shadow-sm">
+                    Gagal ngeklik: 0 kali 🤣
+                </p>
+                <p class="text-sm text-pink-400 font-cute animate-pulse bg-white/70 px-4 py-1 rounded-full">Coba aja pencet yang abu-abu kalo bisa wkwk</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kucing Ngintip (Mascot Tambahan) -->
+    <div id="peeking-mascot">
+        <div class="speech-bubble font-bold">Cieee dibuatin web! 🤭</div>
+        <div class="text-[60px] drop-shadow-md">🐱</div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-10 text-center text-pink-500 text-base font-cute bg-white/50 backdrop-blur-sm relative z-10">
+        <p>Made with lots of love & happiness for Viera Siti Roussadina 🌸</p>
+    </footer>
+
+    <script>
+        const bgMusic = document.getElementById('bg-music');
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const welcomeBox = document.getElementById('welcome-content-box');
+        const musicControl = document.getElementById('music-control');
+        const musicIcon = document.getElementById('music-icon');
+        let isPlaying = false;
+
+        const welcomeSteps = [
+            { icon: "🎁", title: "Hai Viera Cantik! 🌸", text: "Ada kado spesial nih buat kamu. Klik tombol di bawah buat buka yaa! ✨", btn: "Buka Kado Sekarang!" },
+            { icon: "✋", title: "Eitss, tunggu dulu...", text: "Gak semudah itu bestie! Harus sabar ya 😜 Coba pencet lagi.", btn: "Lanjut dongg 🎀" },
+            { icon: "😤", title: "Yakin mau buka sekarang?", text: "Tarik nafas dulu... hembuskan... santaiiiii", btn: "Udah nih, buruan! 😤" },
+            { icon: "🫣", title: "Beneran siap?", text: "Nanti kaget lho liat isinya, awas aja senyum-senyum sendiri wkwk", btn: "Siap Kapten! 🫡" },
+            { icon: "📸", title: "Satu syarat terakhir!", text: "Coba senyum manis dulu ke layar... 1, 2, 3! Cekrekk 📸", btn: "Udah senyum niii 😆" },
+            { icon: "🎉", title: "Awww manis banget!", text: "Oke deh, selamat menikmati kejutannya Viera~", btn: "Let's Gooooo! 🚀" }
+        ];
+        let currentStep = 0;
+
+        // Start experience and handle multi-clicks
+        function handleWelcomeClick() {
+            // PLAY MUSIC ON FIRST CLICK! (Bypasses browser autoplay policy reliably)
+            if (currentStep === 0) {
+                bgMusic.play().then(() => {
+                    isPlaying = true;
+                    musicControl.classList.add('spin-slow');
+                    musicIcon.className = 'fas fa-music text-xl';
+                }).catch(err => {
+                    console.log("Audio play blocked, but we tried:", err);
+                });
+                
+                // Pastikan video ikut terputar dan termute agar lolos aturan autoplay browser
+                const videoEl = document.getElementById('cute-video');
+                if(videoEl) {
+                    videoEl.muted = true;
+                    videoEl.play().catch(e => console.log("Video play blocked:", e));
+                }
+                
+                // Create a burst of hearts
+                createHeartBurst();
+            }
+
+            currentStep++;
+
+            if (currentStep < welcomeSteps.length) {
+                // Animate to next step
+                welcomeBox.style.transform = 'scale(0.8)';
+                welcomeBox.style.opacity = '0';
+                
+                setTimeout(() => {
+                    const data = welcomeSteps[currentStep];
+                    document.getElementById('welcome-icon').innerText = data.icon;
+                    document.getElementById('welcome-title').innerText = data.title;
+                    document.getElementById('welcome-text').innerText = data.text;
+                    document.getElementById('welcome-btn').innerText = data.btn;
+                    
+                    welcomeBox.style.transform = 'scale(1)';
+                    welcomeBox.style.opacity = '1';
+                }, 300);
+            } else {
+                // Final step - Hide welcome screen
+                createHeartBurst();
+                welcomeScreen.style.transform = 'translateY(-100%)';
+                welcomeScreen.style.opacity = '0';
+                
+                // Coba paksa play video jika browser menahan autoplay
+                const videoEl = document.getElementById('cute-video');
+                if(videoEl) {
+                    videoEl.play().catch(e => console.log("Video play info:", e));
+                }
+
+                setTimeout(() => {
+                    welcomeScreen.style.display = 'none';
+                }, 800);
+            }
+        }
+
+        // Toggle music manually via floating button
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                isPlaying = false;
+                musicControl.classList.remove('spin-slow');
+                musicIcon.className = 'fas fa-volume-mute text-xl';
+            } else {
+                bgMusic.play().then(() => {
+                    isPlaying = true;
+                    musicControl.classList.add('spin-slow');
+                    musicIcon.className = 'fas fa-music text-xl';
+                });
+            }
+        }
+
+        const noBtn = document.getElementById('btn-no');
+        const funnyTaunts = [
+            "Gak kena wleee 😜", "Terlalu lambat! 🏃‍♂️", "Coba lagi Viera! 🤭", 
+            "Yahh meleset 🤪", "Kurang cepet ih! 🐢", "Sini kejar kalo bisa 💨",
+            "Nyerah aja mending pencet MAU 😏", "Tangan kamu licin ya? 🧼"
+        ];
+        
+        let missCount = 0; // Variabel penyimpan total gagal klik
+
+        function moveButton(e) {
+            // Get current position before moving to spawn taunt text
+            const rect = noBtn.getBoundingClientRect();
+            
+            // Calculate new position
+            const maxX = window.innerWidth - noBtn.offsetWidth - 40;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 40;
+            
+            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+            noBtn.style.transform = `rotate(${Math.random() * 40 - 20}deg) scale(0.9)`;
+            
+            // Spawn a funny taunt where the button USED to be
+            spawnTaunt(rect.left + rect.width/2, rect.top);
+
+            // Update & tampilkan teks gagal klik
+            missCount++;
+            const counterEl = document.getElementById('miss-counter');
+            counterEl.innerText = `Udah gagal ngeklik ${missCount} kali 🤣`;
+            counterEl.style.opacity = '1';
+            
+            // Beri sedikit animasi nyut-nyutan ke tulisan counter
+            counterEl.style.transform = 'scale(1.1)';
+            setTimeout(() => { counterEl.style.transform = 'scale(1)'; }, 200);
+        }
+
+        function spawnTaunt(x, y) {
+            const taunt = document.createElement('div');
+            taunt.className = 'taunt-text';
+            taunt.innerText = funnyTaunts[Math.floor(Math.random() * funnyTaunts.length)];
+            taunt.style.left = `${x - 40}px`;
+            taunt.style.top = `${y}px`;
+            document.body.appendChild(taunt);
+            
+            setTimeout(() => {
+                taunt.remove();
+            }, 1000);
+        }
+
+        // Apply events for both mobile touch and desktop hover
+        ['mouseover', 'touchstart'].forEach(eventType => {
+            noBtn.addEventListener(eventType, function(e) {
+                e.preventDefault();
+                moveButton(e);
+            }, { passive: false });
+        });
+
+        // Ensure button can't be clicked by keyboard focus either
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveButton(e);
+        });
+
+        // Extra: Generate floating hearts randomly across the screen
+        function createHeartBurst() {
+            for(let i=0; i<15; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '💖';
+                    heart.className = 'floating-heart';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                    document.body.appendChild(heart);
+                    setTimeout(() => heart.remove(), 4000);
+                }, i * 150);
+            }
+        }
+        
+        // Randomly spawn background hearts every few seconds
+        setInterval(() => {
+            if(welcomeScreen.style.display !== 'none') return; // Only show on main screen
+            const heart = document.createElement('div');
+            const icons = ['🌸', '✨', '💖', '🎀'];
+            heart.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+            heart.className = 'floating-heart';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 4000);
+        }, 2000);
+
+        // Tambahan: Efek pop-up ledakan emoji kecil setiap kali layar diseluruh web diklik!
+        document.addEventListener('click', function(e) {
+            // Jangan munculkan kalau yang diklik adalah tombol / layar pembuka
+            if (e.target.closest('#welcome-screen') || e.target.closest('button') || e.target.closest('a') || e.target.closest('#music-control') || e.target.closest('#peeking-mascot')) return;
+            
+            const clickEmoji = document.createElement('div');
+            const emojis = ['🌸', '💖', '✨', '🍦', '🥰', '🎈']; // Emoji random yang akan muncul
+            clickEmoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            clickEmoji.style.position = 'fixed';
+            clickEmoji.style.left = (e.clientX - 12) + 'px';
+            clickEmoji.style.top = (e.clientY - 12) + 'px';
+            clickEmoji.style.fontSize = '24px';
+            clickEmoji.style.pointerEvents = 'none'; // Biar emojinya gak menutupi tombol asli
+            clickEmoji.style.animation = 'float-up-click 1s ease-out forwards';
+            clickEmoji.style.zIndex = '9998';
+            document.body.appendChild(clickEmoji);
+            
+            // Hapus emoji dari sistem setelah animasinya selesai (1 detik)
+            setTimeout(() => clickEmoji.remove(), 1000);
+        });
+
+    </script>
+</body>
+</html>
