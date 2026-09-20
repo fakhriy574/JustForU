@@ -29,13 +29,11 @@
             color: var(--brown-text);
             overflow-x: hidden;
             scroll-behavior: smooth;
-            /* Tambahan: Kursor Bintang ✨ */
-            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2004/svg' width='24' height='24' viewBox='0 0 24 24'><text y='20' font-size='20'>✨</text></svg>") 12 12, auto;
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><text y='20' font-size='20'>✨</text></svg>") 12 12, auto;
         }
 
         a, button, #music-control, .envelope-btn {
-            /* Tambahan: Kursor Tunjuk 👆 saat di tombol */
-            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2004/svg' width='24' height='24' viewBox='0 0 24 24'><text y='20' font-size='20'>👆</text></svg>") 12 12, pointer !important;
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><text y='20' font-size='20'>👆</text></svg>") 12 12, pointer !important;
         }
 
         .font-cute { font-family: 'Fredoka', sans-serif; }
@@ -117,7 +115,6 @@
             position: relative;
         }
         
-        /* Tambahan aksen Pin lucuu di atas foto/video */
         .polaroid::before {
             content: '📌';
             position: absolute;
@@ -172,13 +169,11 @@
         .spin-slow { animation: spin 4s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* Animasi Ledakan Klik Latar */
         @keyframes float-up-click {
             0% { opacity: 1; transform: translateY(0) scale(1); }
             100% { opacity: 0; transform: translateY(-40px) scale(1.5); }
         }
 
-        /* Styling Kucing Ngintip */
         #peeking-mascot {
             position: fixed;
             bottom: -50px;
@@ -246,7 +241,6 @@
 
     <!-- Welcome & Sound Enabler Screen -->
     <div id="welcome-screen">
-        <!-- Floating hearts in background of welcome screen -->
         <i class="fas fa-heart bg-element text-pink-300 text-3xl" style="top: 15%; left: 20%; animation-delay: 0s;"></i>
         <i class="fas fa-star bg-element text-yellow-300 text-4xl" style="top: 25%; right: 15%; animation-delay: 2s;"></i>
         <i class="fas fa-heart bg-element text-pink-400 text-2xl" style="bottom: 20%; left: 30%; animation-delay: 1s;"></i>
@@ -264,7 +258,7 @@
 
     <!-- Audio Player -->
     <audio id="bg-music" loop preload="auto">
-        <source src="ssstik.io_1789885676948.mp3" type="audio/mpeg">
+        <source src="audio/ssstik.io_1789885676948.mp3" type="audio/mpeg">
         Browser kamu tidak mendukung pemutar audio.
     </audio>
 
@@ -343,7 +337,6 @@
                 <span class="bg-pink-100 text-pink-600 font-cute px-4 py-1 rounded-full text-sm mb-3 inline-block">Awas senyum-senyum sendiri 🤭</span>
                 <h3 class="font-cute text-4xl md:text-5xl text-pink-500 drop-shadow-sm mb-6">Galeri Si Paling Gemes 📸</h3>
                 
-                <!-- Permintaan Maaf Lucu -->
                 <div class="bg-yellow-50 border-2 border-yellow-400 rounded-3xl p-6 max-w-2xl mx-auto shadow-md transform -rotate-1 hover:rotate-1 transition duration-300 relative">
                     <div class="absolute -top-3 -right-3 text-3xl">🙏</div>
                     <p class="font-cute text-yellow-700 text-lg md:text-xl font-medium">
@@ -357,18 +350,17 @@
                 
                 <!-- Photo Polaroid -->
                 <div class="polaroid mx-auto w-full max-w-sm">
-                    <img src="SaveClip.App_650998371_17975258045844424_3708870308770583235_n.jpg" alt="Viera Cantik" onerror="this.src='https://placehold.co/400x400/ffe4e8/fb6f92?text=Viera+Cantik'">
+                    <img src="audio/SaveClip.App_650998371_17975258045844424_3708870308770583235_n.jpg" alt="Viera Cantik" onerror="this.src='https://placehold.co/400x400/ffe4e8/fb6f92?text=Viera+Cantik'">
                     <p class="font-handwriting text-center text-gray-700 mt-5 text-3xl absolute bottom-4 w-full left-0 font-bold text-pink-600">MasyaAllah cantiknyaa 🥺💖</p>
                     <div class="absolute -top-4 -right-4 text-4xl animate-bounce">✨</div>
                 </div>
 
-                <!-- Video Polaroid (Diperbesar & Estetik) -->
+                <!-- Video Polaroid -->
                 <div class="polaroid mx-auto w-full max-w-md" style="transform: rotate(3deg); padding: 20px 20px 65px 20px;">
                     <div class="relative">
-                        <!-- Aksesoris Selotip (Masking Tape) Lucu -->
                         <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-pink-300/50 backdrop-blur-sm -rotate-3 z-20 shadow-sm" style="clip-path: polygon(4% 0, 96% 0, 100% 100%, 0 100%); border-radius: 2px;"></div>
                         
-                        <video id="cute-video" src="WhatsApp Video 2026-09-20 at 13.15.55.mp4" 
+                        <video id="cute-video" src="audio/WhatsApp Video 2026-09-20 at 13.15.55.mp4" 
                                controls 
                                autoplay
                                loop
@@ -436,7 +428,6 @@
             </h4>
 
             <div class="flex flex-col md:flex-row justify-center items-center gap-8 min-h-[160px] relative" id="btn-container">
-                <!-- Yes Button -->
                 <a href="https://wa.me/62895348033878?text=Haiii!%20Makasih%20banyak%20yaa%20webnya%20lucuuu%20banget,%20ada%20lagunya%20lagi!%20%E2%9D%A4%EF%B8%8F%0A%0ATentang%20pertanyaannya...%20aku%20mauu%20kok%20nungguin%20dan%20bareng%20kamu!%20%F0%9F%98%81" 
                    target="_blank" 
                    rel="noopener noreferrer"
@@ -444,14 +435,12 @@
                     MAU BANGET! 🥰
                 </a>
 
-                <!-- No Button (Runaway / Impossible to click) -->
                 <button id="btn-no" 
                         class="bg-gray-100 text-gray-500 font-cute text-xl py-4 px-10 rounded-full shadow-md z-30 cursor-pointer border-2 border-gray-200 hover:bg-gray-200">
                     Gak Dulu 😝
                 </button>
             </div>
             
-            <!-- Teks Penghitung Gagal Klik -->
             <div class="mt-8 flex flex-col items-center justify-center space-y-2">
                 <p id="miss-counter" class="text-lg text-pink-500 font-cute font-bold opacity-0 transition-opacity duration-300 bg-pink-50 inline-block px-5 py-2 rounded-full border-2 border-pink-200 shadow-sm">
                     Gagal ngeklik: 0 kali 🤣
@@ -461,7 +450,7 @@
         </div>
     </section>
 
-    <!-- Kucing Ngintip (Mascot Tambahan) -->
+    <!-- Kucing Ngintip -->
     <div id="peeking-mascot">
         <div class="speech-bubble font-bold">Cieee dibuatin web! 🤭</div>
         <div class="text-[60px] drop-shadow-md">🐱</div>
@@ -490,9 +479,7 @@
         ];
         let currentStep = 0;
 
-        // Start experience and handle multi-clicks
         function handleWelcomeClick() {
-            // PLAY MUSIC ON FIRST CLICK! (Bypasses browser autoplay policy reliably)
             if (currentStep === 0) {
                 bgMusic.play().then(() => {
                     isPlaying = true;
@@ -502,21 +489,18 @@
                     console.log("Audio play blocked, but we tried:", err);
                 });
                 
-                // Pastikan video ikut terputar dan termute agar lolos aturan autoplay browser
                 const videoEl = document.getElementById('cute-video');
                 if(videoEl) {
                     videoEl.muted = true;
                     videoEl.play().catch(e => console.log("Video play blocked:", e));
                 }
                 
-                // Create a burst of hearts
                 createHeartBurst();
             }
 
             currentStep++;
 
             if (currentStep < welcomeSteps.length) {
-                // Animate to next step
                 welcomeBox.style.transform = 'scale(0.8)';
                 welcomeBox.style.opacity = '0';
                 
@@ -531,12 +515,10 @@
                     welcomeBox.style.opacity = '1';
                 }, 300);
             } else {
-                // Final step - Hide welcome screen
                 createHeartBurst();
                 welcomeScreen.style.transform = 'translateY(-100%)';
                 welcomeScreen.style.opacity = '0';
                 
-                // Coba paksa play video jika browser menahan autoplay
                 const videoEl = document.getElementById('cute-video');
                 if(videoEl) {
                     videoEl.play().catch(e => console.log("Video play info:", e));
@@ -548,7 +530,6 @@
             }
         }
 
-        // Toggle music manually via floating button
         function toggleMusic() {
             if (isPlaying) {
                 bgMusic.pause();
@@ -571,13 +552,11 @@
             "Nyerah aja mending pencet MAU 😏", "Tangan kamu licin ya? 🧼"
         ];
         
-        let missCount = 0; // Variabel penyimpan total gagal klik
+        let missCount = 0;
 
         function moveButton(e) {
-            // Get current position before moving to spawn taunt text
             const rect = noBtn.getBoundingClientRect();
             
-            // Calculate new position
             const maxX = window.innerWidth - noBtn.offsetWidth - 40;
             const maxY = window.innerHeight - noBtn.offsetHeight - 40;
             
@@ -589,16 +568,13 @@
             noBtn.style.top = `${randomY}px`;
             noBtn.style.transform = `rotate(${Math.random() * 40 - 20}deg) scale(0.9)`;
             
-            // Spawn a funny taunt where the button USED to be
             spawnTaunt(rect.left + rect.width/2, rect.top);
 
-            // Update & tampilkan teks gagal klik
             missCount++;
             const counterEl = document.getElementById('miss-counter');
             counterEl.innerText = `Udah gagal ngeklik ${missCount} kali 🤣`;
             counterEl.style.opacity = '1';
             
-            // Beri sedikit animasi nyut-nyutan ke tulisan counter
             counterEl.style.transform = 'scale(1.1)';
             setTimeout(() => { counterEl.style.transform = 'scale(1)'; }, 200);
         }
@@ -616,7 +592,6 @@
             }, 1000);
         }
 
-        // Apply events for both mobile touch and desktop hover
         ['mouseover', 'touchstart'].forEach(eventType => {
             noBtn.addEventListener(eventType, function(e) {
                 e.preventDefault();
@@ -624,13 +599,11 @@
             }, { passive: false });
         });
 
-        // Ensure button can't be clicked by keyboard focus either
         noBtn.addEventListener('click', (e) => {
             e.preventDefault();
             moveButton(e);
         });
 
-        // Extra: Generate floating hearts randomly across the screen
         function createHeartBurst() {
             for(let i=0; i<15; i++) {
                 setTimeout(() => {
@@ -645,9 +618,8 @@
             }
         }
         
-        // Randomly spawn background hearts every few seconds
         setInterval(() => {
-            if(welcomeScreen.style.display !== 'none') return; // Only show on main screen
+            if(welcomeScreen.style.display !== 'none') return;
             const heart = document.createElement('div');
             const icons = ['🌸', '✨', '💖', '🎀'];
             heart.innerHTML = icons[Math.floor(Math.random() * icons.length)];
@@ -658,27 +630,23 @@
             setTimeout(() => heart.remove(), 4000);
         }, 2000);
 
-        // Tambahan: Efek pop-up ledakan emoji kecil setiap kali layar diseluruh web diklik!
         document.addEventListener('click', function(e) {
-            // Jangan munculkan kalau yang diklik adalah tombol / layar pembuka
             if (e.target.closest('#welcome-screen') || e.target.closest('button') || e.target.closest('a') || e.target.closest('#music-control') || e.target.closest('#peeking-mascot')) return;
             
             const clickEmoji = document.createElement('div');
-            const emojis = ['🌸', '💖', '✨', '🍦', '🥰', '🎈']; // Emoji random yang akan muncul
+            const emojis = ['🌸', '💖', '✨', '🍦', '🥰', '🎈'];
             clickEmoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
             clickEmoji.style.position = 'fixed';
             clickEmoji.style.left = (e.clientX - 12) + 'px';
             clickEmoji.style.top = (e.clientY - 12) + 'px';
             clickEmoji.style.fontSize = '24px';
-            clickEmoji.style.pointerEvents = 'none'; // Biar emojinya gak menutupi tombol asli
+            clickEmoji.style.pointerEvents = 'none';
             clickEmoji.style.animation = 'float-up-click 1s ease-out forwards';
             clickEmoji.style.zIndex = '9998';
             document.body.appendChild(clickEmoji);
             
-            // Hapus emoji dari sistem setelah animasinya selesai (1 detik)
             setTimeout(() => clickEmoji.remove(), 1000);
         });
-
     </script>
 </body>
 </html>
